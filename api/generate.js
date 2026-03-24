@@ -10,17 +10,26 @@ export default async function handler(req) {
 
   const { postavy, mista, predmety, nalada } = body;
 
-  const prompt = `Napis krátkou ceskou pohadku pro male dite (vek 4-8 let). Pohadka musi:
-- Byt v cestine
-- Byt kratsi nez 300 slov
-- Zacinat titulkem (prvni radek = nazev pohadky)
-- Obsahovat tyto postavy: ${postavy || 'nezname hrdina'} (pokud je mezi postavami Lukasek, jde o 5leteho blondateho chlapce; pokud je tam Emmicka, jde o 2letou blondatou holcicku - pis o nich jako o skutecnych detech, ktere prozivaji pohadku)
-- Odehravat se na techto mistech: ${mista || 'daleka zeme'}
-- Zahrnovat tyto kouzelne veci: ${predmety || 'kouzelny predmet'}
-- Mit tuto naladu/zakonceni: ${nalada || 'stastny konec'}
-- Byt mila, hrava a s poucenim
-- Psat jednoduchym jazykem, ktery pochopi male dite
-Napis jen samotny text pohadky, bez dalsiho komentare.`;
+  const prompt = `Jsi zkušený český pohádkář, který píše krásné pohádky pro malé děti. Piš výhradně spisovnou češtinou, s bohatou slovní zásobou a pohádkovým stylem.
+
+Napiš pohádku podle těchto pokynů:
+- Jazyk: krásná, správná čeština ve stylu klasických českých pohádek
+- Délka: 250 až 350 slov
+- Struktura: první řádek je název pohádky (bez uvozovek, bez slova "Název:"), pak prázdný řádek, pak samotný příběh rozdělený do odstavců
+- Postavy: ${postavy || 'odvážný hrdina'} ${postavy && postavy.includes('Lukasek') ? '— Lukášek je živý, zvídavý pětiletý chlapec se zlatými vlasy' : ''} ${postavy && postavy.includes('Emmicka') ? '— Emmička je rozkošná dvouletá holčička s blonďatými vlásky, která se právě učí mluvit' : ''}
+- Místo děje: ${mista || 'kouzelná země'}
+- Kouzelné předměty nebo motivy: ${predmety || 'tajemný kouzelný předmět'}
+- Vyznění příběhu: ${nalada || 'šťastný konec s poučením'}
+
+Požadavky na styl:
+- Používej pohádkové obraty jako "Za devatero horami", "Byl jednou jeden", "Žili byli" apod.
+- Dialogy postav piš živě a přirozeně
+- Přidej poetické popisy přírody a prostředí
+- Příběh musí mít jasný začátek, zápletku a rozuzlení
+- Na konci přidej krátké poučení nebo moudrost
+- Piš tak, aby pohádka byla vhodná pro předčítání dětem před spaním
+
+Napiš pouze samotný text pohádky — název na prvním řádku, pak příběh. Žádný komentář, žádné uvozovky okolo názvu.`;
 
   try {
     const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
@@ -31,8 +40,8 @@ Napis jen samotny text pohadky, bez dalsiho komentare.`;
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5',
-        max_tokens: 1000,
+        model: 'claude-sonnet-4-5',
+        max_tokens: 1200,
         messages: [{ role: 'user', content: prompt }],
       }),
     });
