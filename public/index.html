@@ -33,7 +33,7 @@
   .card.selected{border-color:var(--gold);background:rgba(240,192,64,.18);transform:translateY(-4px) scale(1.06);box-shadow:0 0 20px rgba(240,192,64,.4),0 8px 24px rgba(0,0,0,.4)}
   .card.selected::before{opacity:1}
   .card-emoji{font-size:2.6rem;line-height:1;display:block;margin-bottom:.4rem}
-  .card-svg{width:2.8rem;height:2.8rem;display:block;margin:0 auto .4rem}
+  .card-img{width:2.8rem;height:2.8rem;display:block;margin:0 auto .4rem}
   .card-label{font-size:.72rem;color:rgba(253,246,227,.85);line-height:1.3}
   .card.selected .card-label{color:var(--gold);font-weight:600}
   .check-badge{position:absolute;top:5px;right:5px;width:18px;height:18px;background:var(--gold);border-radius:50%;display:none;align-items:center;justify-content:center;font-size:.6rem;color:var(--deep);font-weight:bold}
@@ -102,70 +102,67 @@
   </div>
 </div>
 <script>
-// Lukasek — blondaty chlapec 5 let
-const SVG_LUKASEK='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="38" r="22" fill="#FDBCB4"/><ellipse cx="50" cy="28" rx="22" ry="16" fill="#F5C842"/><ellipse cx="38" cy="26" rx="10" ry="8" fill="#E8B820"/><ellipse cx="62" cy="26" rx="10" ry="8" fill="#E8B820"/><ellipse cx="50" cy="22" rx="18" ry="10" fill="#F5C842"/><circle cx="43" cy="38" r="3" fill="#4a3728"/><circle cx="57" cy="38" r="3" fill="#4a3728"/><ellipse cx="50" cy="44" rx="4" ry="2.5" fill="#e8967a"/><rect x="30" y="58" width="40" height="30" rx="8" fill="#5b8dd9"/><ellipse cx="50" cy="58" rx="20" ry="6" fill="#FDBCB4"/></svg>';
+function svgToDataUrl(svg){
+  return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
+}
 
-// Emmicka — blondata holcicka 2 leta
-const SVG_EMMICKA='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="40" r="20" fill="#FDBCB4"/><ellipse cx="50" cy="28" rx="20" ry="15" fill="#F5C842"/><ellipse cx="32" cy="38" rx="7" ry="14" fill="#F5C842"/><ellipse cx="68" cy="38" rx="7" ry="14" fill="#F5C842"/><ellipse cx="50" cy="24" rx="17" ry="9" fill="#F5C842"/><ellipse cx="32" cy="30" rx="5" ry="10" fill="#E8B820"/><ellipse cx="68" cy="30" rx="5" ry="10" fill="#E8B820"/><circle cx="44" cy="40" r="2.5" fill="#4a3728"/><circle cx="56" cy="40" r="2.5" fill="#4a3728"/><ellipse cx="50" cy="46" rx="3.5" ry="2" fill="#e8967a"/><circle cx="44" cy="41" r=".8" fill="#fff"/><circle cx="56" cy="41" r=".8" fill="#fff"/><rect x="32" y="58" width="36" height="28" rx="8" fill="#e84393"/><ellipse cx="50" cy="58" rx="18" ry="5" fill="#FDBCB4"/></svg>';
-
-// Marta — holcicka s hneydmi vlasy (starsi)
-const SVG_MARTA='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="38" r="22" fill="#FDBCB4"/><ellipse cx="50" cy="26" rx="22" ry="15" fill="#6B3A2A"/><ellipse cx="50" cy="22" rx="18" ry="9" fill="#7D4535"/><ellipse cx="28" cy="40" rx="6" ry="16" fill="#6B3A2A"/><ellipse cx="72" cy="40" rx="6" ry="16" fill="#6B3A2A"/><circle cx="43" cy="38" r="3" fill="#3d2b1f"/><circle cx="57" cy="38" r="3" fill="#3d2b1f"/><ellipse cx="50" cy="44" rx="4" ry="2.5" fill="#e8967a"/><circle cx="43" cy="39" r=".9" fill="#fff"/><circle cx="57" cy="39" r=".9" fill="#fff"/><rect x="30" y="58" width="40" height="30" rx="8" fill="#9b59b6"/><ellipse cx="50" cy="58" rx="20" ry="6" fill="#FDBCB4"/></svg>';
-
-// Editka — rocni holcicka s hneydmi vlasy (baby)
-const SVG_EDITKA='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="42" r="20" fill="#FDBCB4"/><ellipse cx="50" cy="30" rx="18" ry="13" fill="#6B3A2A"/><ellipse cx="50" cy="26" rx="14" ry="8" fill="#7D4535"/><ellipse cx="35" cy="40" rx="5" ry="10" fill="#6B3A2A"/><ellipse cx="65" cy="40" rx="5" ry="10" fill="#6B3A2A"/><circle cx="44" cy="42" r="2.5" fill="#3d2b1f"/><circle cx="56" cy="42" r="2.5" fill="#3d2b1f"/><ellipse cx="50" cy="47" rx="3" ry="2" fill="#e8967a"/><circle cx="44" cy="43" r=".8" fill="#fff"/><circle cx="56" cy="43" r=".8" fill="#fff"/><ellipse cx="50" cy="35" rx="4" ry="3" fill="#f9a8d4"/><rect x="32" y="60" width="36" height="26" rx="10" fill="#f472b6"/><ellipse cx="50" cy="60" rx="18" ry="5" fill="#FDBCB4"/><ellipse cx="36" cy="68" rx="7" ry="9" fill="#FDBCB4"/><ellipse cx="64" cy="68" rx="7" ry="9" fill="#FDBCB4"/></svg>';
-
-// Premek — 2lety chlapec s hneydmi vlasy
-const SVG_PREMEK='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="40" r="21" fill="#FDBCB4"/><ellipse cx="50" cy="28" rx="20" ry="14" fill="#6B3A2A"/><ellipse cx="50" cy="24" rx="16" ry="9" fill="#7D4535"/><ellipse cx="32" cy="37" rx="6" ry="12" fill="#6B3A2A"/><ellipse cx="68" cy="37" rx="6" ry="12" fill="#6B3A2A"/><circle cx="44" cy="40" r="2.8" fill="#3d2b1f"/><circle cx="56" cy="40" r="2.8" fill="#3d2b1f"/><ellipse cx="50" cy="46" rx="3.5" ry="2" fill="#e8967a"/><circle cx="44" cy="41" r=".8" fill="#fff"/><circle cx="56" cy="41" r=".8" fill="#fff"/><rect x="31" y="59" width="38" height="28" rx="8" fill="#2ecc71"/><ellipse cx="50" cy="59" rx="19" ry="5.5" fill="#FDBCB4"/></svg>';
+const SVGS={
+  lukasek:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="38" r="22" fill="#FDBCB4"/><ellipse cx="50" cy="28" rx="22" ry="16" fill="#F5C842"/><ellipse cx="38" cy="26" rx="10" ry="8" fill="#E8B820"/><ellipse cx="62" cy="26" rx="10" ry="8" fill="#E8B820"/><ellipse cx="50" cy="22" rx="18" ry="10" fill="#F5C842"/><circle cx="43" cy="38" r="3" fill="#4a3728"/><circle cx="57" cy="38" r="3" fill="#4a3728"/><circle cx="43" cy="37" r="1" fill="#fff"/><circle cx="57" cy="37" r="1" fill="#fff"/><ellipse cx="50" cy="44" rx="4" ry="2.5" fill="#e8967a"/><rect x="30" y="58" width="40" height="30" rx="8" fill="#5b8dd9"/><ellipse cx="50" cy="58" rx="20" ry="6" fill="#FDBCB4"/></svg>',
+  emmicka:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="40" r="20" fill="#FDBCB4"/><ellipse cx="50" cy="28" rx="20" ry="15" fill="#F5C842"/><ellipse cx="32" cy="38" rx="7" ry="14" fill="#F5C842"/><ellipse cx="68" cy="38" rx="7" ry="14" fill="#F5C842"/><ellipse cx="50" cy="24" rx="17" ry="9" fill="#F5C842"/><ellipse cx="32" cy="30" rx="5" ry="10" fill="#E8B820"/><ellipse cx="68" cy="30" rx="5" ry="10" fill="#E8B820"/><circle cx="44" cy="40" r="2.5" fill="#4a3728"/><circle cx="56" cy="40" r="2.5" fill="#4a3728"/><circle cx="44" cy="39" r=".8" fill="#fff"/><circle cx="56" cy="39" r=".8" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2" fill="#e8967a"/><rect x="32" y="58" width="36" height="28" rx="8" fill="#e84393"/><ellipse cx="50" cy="58" rx="18" ry="5" fill="#FDBCB4"/></svg>',
+  marta:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="38" r="22" fill="#FDBCB4"/><ellipse cx="50" cy="26" rx="22" ry="15" fill="#6B3A2A"/><ellipse cx="50" cy="22" rx="18" ry="9" fill="#7D4535"/><ellipse cx="28" cy="42" rx="6" ry="16" fill="#6B3A2A"/><ellipse cx="72" cy="42" rx="6" ry="16" fill="#6B3A2A"/><circle cx="43" cy="38" r="3" fill="#3d2b1f"/><circle cx="57" cy="38" r="3" fill="#3d2b1f"/><circle cx="43" cy="37" r="1" fill="#fff"/><circle cx="57" cy="37" r="1" fill="#fff"/><ellipse cx="50" cy="44" rx="4" ry="2.5" fill="#e8967a"/><rect x="30" y="58" width="40" height="30" rx="8" fill="#9b59b6"/><ellipse cx="50" cy="58" rx="20" ry="6" fill="#FDBCB4"/></svg>',
+  editka:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="44" r="19" fill="#FDBCB4"/><ellipse cx="50" cy="32" rx="17" ry="12" fill="#6B3A2A"/><ellipse cx="50" cy="27" rx="13" ry="8" fill="#7D4535"/><ellipse cx="50" cy="24" rx="5" ry="4" fill="#6B3A2A"/><circle cx="44" cy="43" r="2.5" fill="#3d2b1f"/><circle cx="56" cy="43" r="2.5" fill="#3d2b1f"/><circle cx="44" cy="42" r=".8" fill="#fff"/><circle cx="56" cy="42" r=".8" fill="#fff"/><ellipse cx="50" cy="49" rx="3" ry="1.8" fill="#e8967a"/><ellipse cx="50" cy="46" rx="5" ry="3" fill="#ffb3ba"/><rect x="33" y="61" width="34" height="24" rx="10" fill="#f472b6"/><ellipse cx="50" cy="61" rx="17" ry="5" fill="#FDBCB4"/><ellipse cx="35" cy="70" rx="6" ry="8" fill="#FDBCB4"/><ellipse cx="65" cy="70" rx="6" ry="8" fill="#FDBCB4"/></svg>',
+  premek:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="40" r="21" fill="#FDBCB4"/><ellipse cx="50" cy="28" rx="20" ry="14" fill="#6B3A2A"/><ellipse cx="50" cy="24" rx="16" ry="9" fill="#7D4535"/><ellipse cx="32" cy="37" rx="6" ry="12" fill="#6B3A2A"/><ellipse cx="68" cy="37" rx="6" ry="12" fill="#6B3A2A"/><circle cx="44" cy="40" r="2.8" fill="#3d2b1f"/><circle cx="56" cy="40" r="2.8" fill="#3d2b1f"/><circle cx="44" cy="39" r=".9" fill="#fff"/><circle cx="56" cy="39" r=".9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2" fill="#e8967a"/><rect x="31" y="59" width="38" height="28" rx="8" fill="#2ecc71"/><ellipse cx="50" cy="59" rx="19" ry="5.5" fill="#FDBCB4"/></svg>'
+};
 
 const categories={
   postavy:{items:[
-    {svg:SVG_LUKASEK, label:"Lukasek"},
-    {svg:SVG_EMMICKA, label:"Emmicka"},
-    {svg:SVG_MARTA,   label:"Marta"},
-    {svg:SVG_EDITKA,  label:"Editka"},
-    {svg:SVG_PREMEK,  label:"Premek"},
-    {emoji:"&#128120;",label:"Princezna"},
-    {emoji:"&#129312;",label:"Princ"},
-    {emoji:"&#129497;",label:"Carodej"},
-    {emoji:"&#129498;",label:"Vila"},
-    {emoji:"&#128009;",label:"Drak"},
-    {emoji:"&#129412;",label:"Jednorozec"},
-    {emoji:"&#128058;",label:"Vlk"},
-    {emoji:"&#129100;",label:"Trpaslik"},
-    {emoji:"&#129418;",label:"Liska"},
-    {emoji:"&#129500;",label:"Morska panna"},
-    {emoji:"&#128059;",label:"Medved"},
-    {emoji:"&#128071;",label:"Rytir"}
+    {key:'lukasek', label:'Lukasek'},
+    {key:'emmicka', label:'Emmicka'},
+    {key:'marta',   label:'Marta'},
+    {key:'editka',  label:'Editka'},
+    {key:'premek',  label:'Premek'},
+    {emoji:'&#128120;',label:'Princezna'},
+    {emoji:'&#129312;',label:'Princ'},
+    {emoji:'&#129497;',label:'Carodej'},
+    {emoji:'&#129498;',label:'Vila'},
+    {emoji:'&#128009;',label:'Drak'},
+    {emoji:'&#129412;',label:'Jednorozec'},
+    {emoji:'&#128058;',label:'Vlk'},
+    {emoji:'&#129100;',label:'Trpaslik'},
+    {emoji:'&#129418;',label:'Liska'},
+    {emoji:'&#129500;',label:'Morska panna'},
+    {emoji:'&#128059;',label:'Medved'},
+    {emoji:'&#128071;',label:'Rytir'}
   ]},
   mista:{items:[
-    {emoji:"&#127984;",label:"Hrad"},
-    {emoji:"&#127794;",label:"Les"},
-    {emoji:"&#9968;",label:"Hora"},
-    {emoji:"&#127754;",label:"More"},
-    {emoji:"&#127969;",label:"Chaloupka"},
-    {emoji:"&#127802;",label:"Kouzelna zahrada"},
-    {emoji:"&#129419;",label:"Louka"},
-    {emoji:"&#127961;",label:"Kralovstvi"},
-    {emoji:"&#127769;",label:"Mesic"},
-    {emoji:"&#127752;",label:"Duha"}
+    {emoji:'&#127984;',label:'Hrad'},
+    {emoji:'&#127794;',label:'Les'},
+    {emoji:'&#9968;',  label:'Hora'},
+    {emoji:'&#127754;',label:'More'},
+    {emoji:'&#127969;',label:'Chaloupka'},
+    {emoji:'&#127802;',label:'Kouzelna zahrada'},
+    {emoji:'&#129419;',label:'Louka'},
+    {emoji:'&#127961;',label:'Kralovstvi'},
+    {emoji:'&#127769;',label:'Mesic'},
+    {emoji:'&#127752;',label:'Duha'}
   ]},
   predmety:{items:[
-    {emoji:"&#129668;",label:"Kouzelna hulka"},
-    {emoji:"&#128142;",label:"Drahokam"},
-    {emoji:"&#128481;",label:"Mec"},
-    {emoji:"&#127873;",label:"Tajny dar"},
-    {emoji:"&#128220;",label:"Kouzelny svitek"},
-    {emoji:"&#127822;",label:"Kouzelne jablko"},
-    {emoji:"&#128302;",label:"Kristalova koule"},
-    {emoji:"&#11088;",label:"Padajici hvezda"},
-    {emoji:"&#129371;",label:"Lektvar"},
-    {emoji:"&#127926;",label:"Kouzelna pisen"}
+    {emoji:'&#129668;',label:'Kouzelna hulka'},
+    {emoji:'&#128142;',label:'Drahokam'},
+    {emoji:'&#128481;',label:'Mec'},
+    {emoji:'&#127873;',label:'Tajny dar'},
+    {emoji:'&#128220;',label:'Kouzelny svitek'},
+    {emoji:'&#127822;',label:'Kouzelne jablko'},
+    {emoji:'&#128302;',label:'Kristalova koule'},
+    {emoji:'&#11088;', label:'Padajici hvezda'},
+    {emoji:'&#129371;',label:'Lektvar'},
+    {emoji:'&#127926;',label:'Kouzelna pisen'}
   ]},
   nalada:{items:[
-    {emoji:"&#128150;",label:"Stastny konec"},
-    {emoji:"&#128514;",label:"Vtipne"},
-    {emoji:"&#128558;",label:"S prekvapenim"},
-    {emoji:"&#127752;",label:"Dobrodruzne"}
+    {emoji:'&#128150;',label:'Stastny konec'},
+    {emoji:'&#128514;',label:'Vtipne'},
+    {emoji:'&#128558;',label:'S prekvapenim'},
+    {emoji:'&#127752;',label:'Dobrodruzne'}
   ]}
 };
 
@@ -178,9 +175,12 @@ function buildCards(){
     data.items.forEach(item=>{
       const card=document.createElement('div');
       card.className='card';
-      const icon=item.svg
-        ?'<img class="card-svg" src="data:image/svg+xml,'+encodeURIComponent(item.svg)+'" alt="'+item.label+'"/>'
-        :'<span class="card-emoji">'+item.emoji+'</span>';
+      let icon;
+      if(item.key && SVGS[item.key]){
+        icon='<img class="card-img" src="'+svgToDataUrl(SVGS[item.key])+'" alt="'+item.label+'"/>';
+      } else {
+        icon='<span class="card-emoji">'+item.emoji+'</span>';
+      }
       card.innerHTML='<div class="check-badge">&#10003;</div>'+icon+'<div class="card-label">'+item.label+'</div>';
       card.addEventListener('click',()=>toggleCard(card,cat,item.label));
       grid.appendChild(card);
@@ -271,4 +271,5 @@ function toggleRead(){
 
 function resetReadBtn(){
   document.getElementById('readIcon').innerHTML='&#9654;';
-  document.getElementByI
+  document.getElementById('readLabel').textContent='Precist pohadku';
+  document.getElement
