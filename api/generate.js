@@ -10,16 +10,27 @@ export default async function handler(req) {
 
   const { postavy, mista, predmety, nalada } = body;
 
+  const detiInfo = `
+Pokud se mezi postavami vyskytují tato jména, zde jsou jejich popisy:
+- Lukášek: živý a zvídavý pětiletý chlapec se zlatými blonďatými vlasy
+- Emmička: rozkošná dvouletá holčička s blonďatými vlásky, která se právě učí mluvit
+- Marta: veselá holčička s hnědými vlasy, kamarádka ostatních dětí
+- Editka: roční baculaté miminko s hnědými vlásky, které se teprve učí chodit
+- Přemek: dvouletý šibalský chlapec s hnědými vlasy, plný energie
+Piš o nich jako o skutečných dětech, které pohádku prožívají. Přizpůsob jejich chování věku — Editka ještě nechodí sama a brouká, Emmička a Přemek říkají krátká slova, Lukášek mluví ve větách.`;
+
   const prompt = `Jsi zkušený český pohádkář, který píše krásné pohádky pro malé děti. Piš výhradně spisovnou češtinou, s bohatou slovní zásobou a pohádkovým stylem.
 
 Napiš pohádku podle těchto pokynů:
 - Jazyk: krásná, správná čeština ve stylu klasických českých pohádek
 - Délka: 250 až 350 slov
 - Struktura: první řádek je název pohádky (bez uvozovek, bez slova "Název:"), pak prázdný řádek, pak samotný příběh rozdělený do odstavců
-- Postavy: ${postavy || 'odvážný hrdina'} ${postavy && postavy.includes('Lukasek') ? '— Lukášek je živý, zvídavý pětiletý chlapec se zlatými vlasy' : ''} ${postavy && postavy.includes('Emmicka') ? '— Emmička je rozkošná dvouletá holčička s blonďatými vlásky, která se právě učí mluvit' : ''}
+- Postavy: ${postavy || 'odvážný hrdina'}
 - Místo děje: ${mista || 'kouzelná země'}
 - Kouzelné předměty nebo motivy: ${predmety || 'tajemný kouzelný předmět'}
 - Vyznění příběhu: ${nalada || 'šťastný konec s poučením'}
+
+${detiInfo}
 
 Požadavky na styl:
 - Používej pohádkové obraty jako "Za devatero horami", "Byl jednou jeden", "Žili byli" apod.
