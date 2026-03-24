@@ -1,5 +1,3 @@
-import { NextResponse } from 'next/server';
-
 export const config = { runtime: 'edge' };
 
 const HTML = `<!DOCTYPE html>
